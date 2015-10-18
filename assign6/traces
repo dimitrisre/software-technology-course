@@ -1,0 +1,153 @@
+EPEKSHGHSH TOY KODIKA ASSEMBLY TOY PROGRAMMATOS
+-----------------------------------------------
+readString:
+	pushl	%ebp		// \
+	movl	%esp, %ebp	//  \
+	subl	$56, %esp	//   >Adjust base and stack pointers to the new stack frame
+	movl	$0, -44(%ebp)	//  /
+				// /
+.L2:
+	subl	$12, %esp	//\
+	pushl	$__iob		// \
+	call	fgetc		//  >Calls fgetc function
+	addl	$16, %esp	// /
+	movl	%eax, -48(%ebp)	///
+	
+	cmpl	$-1, -48(%ebp)	//	
+	je	.L3		//if((c==EOF )|| (c=='\n'))
+	cmpl	$10, -48(%ebp)	//	break;
+	je	.L3		//
+	
+	movl	-44(%ebp), %eax // \
+	leal	-8(%ebp), %edx  //  |
+	addl	%edx, %eax      //  |
+	leal	-32(%eax), %edx //  |
+	movl	-48(%ebp), %eax //  >buf[i++]=c;
+	movb	%al, (%edx)	//  |
+	leal	-44(%ebp), %eax	//  |
+	incl	(%eax)		//  |
+	jmp	.L2		// /
+.L3:
+	leal	-40(%ebp), %eax //\
+	addl	-44(%ebp), %eax // |buf[i]=0;
+	movb	$0, (%eax)	// >i=0;
+	movl	$0, -44(%ebp)	///
+.L6:
+	cmpl	$29, -44(%ebp)	 //
+	jg	.L1 		 //
+	movl	-44(%ebp), %eax  //for(i=0;i<BUFSIZE;i++)
+	movl	8(%ebp), %edx	 //	s[i]=buf[i];
+	addl	%eax, %edx	 //
+	leal	-40(%ebp), %eax  //
+	addl	-44(%ebp), %eax  //
+	movb	(%eax), %al 	 //
+	movb	%al, (%edx)	 //
+	leal	-44(%ebp), %eax  //
+	incl	(%eax)		 //
+	jmp	.L6		 //
+.L1:
+	leave			//
+	ret			//return;
+main:
+	pushl	%ebp		//adjusts the stack and base pointer 
+	movl	%esp, %ebp	//for its stack frame
+	subl	$8, %esp	//
+	andl	$-16, %esp	//
+
+	movl	$0, %eax	//
+	addl	$15, %eax	//
+	addl	$15, %eax	//
+	shrl	$4, %eax	//
+	sall	$4, %eax	//
+	subl	%eax, %esp	//
+	subl	$4, %esp	//mprotect system call
+	pushl	$7		//
+	pushl	$1		//
+	movl	$Name, %eax	//
+	andl	$-4096, %eax	//
+	pushl	%eax		//
+	call	mprotect	//
+
+	addl	$16, %esp	//
+	subl	$12, %esp	//printf("What is your name?\n");
+	pushl	$.LC0		//
+	call	printf		//
+
+	addl	$16, %esp	//
+	subl	$12, %esp	//readString(Name);
+	pushl	$Name		//
+	call	readString	//
+
+	addl	$16, %esp	//
+	subl	$8, %esp	//
+	pushl	$.LC1		//strcmp(Name, "Angelos Bilas")
+	pushl	$Name		//
+	call	strcmp		//
+
+	addl	$16, %esp	//
+	testl	%eax, %eax	//if(strcmp...==0)
+	jne	.L10		//	grade= '6';
+	movb	$54, grade	//
+.L10:
+	subl	$8, %esp	//
+	pushl	$Name		//printf("Thank you, %s.\n",Name);
+	pushl	$.LC2		//
+	call	printf		//
+
+	addl	$16, %esp	//
+	subl	$8, %esp	//
+	movsbl	grade,%eax	//printf("I recommend that you get \
+	pushl	%eax		//\a grade of %c on this assignement.\n"
+	pushl	$.LC3		//,grade);
+	call	printf		//
+
+	addl	$16, %esp	//
+	subl	$12, %esp	//exit(0);
+	pushl	$0		//
+	call	exit		//
+
+
+ANALYSH DATA SECTION
+--------------------
+
+0x8088594 <_GLOBAL_OFFSET_TABLE_+32>: 0x00 0x00 0x00 0x00 0xff 0xff 0xff 0xff
+0x808859c <__CTOR_END__>:	       0x00 0x00 0x00 0x00 0xff 0xff 0xff 0xff
+0x80885a4 <__DTOR_END__>:	       0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x80885ac <__JCR_LIST__>:	       0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x80885b4 <grade>:	     0x33 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x80885bc <mem_lock+4>:	     0x00 0x00 0x58 0x4d 0x00 0x00 0x00 0x00
+0x80885c4 <mem_lock+12>:          0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00   
+0x80885cc <mem_lock+20>:	  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+
+ANALYSH BSS SECTION
+-------------------
+
+0x808b44c <__syslog+20>: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x808b454 <__syslog+28>: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x808b45c <Name+4>: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x808b464 <Name+12>: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x808b46c <Name+20>: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x808b474 <Name+28>: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+0x808b47c <__flt_rounds>: 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+
+ANALYSH TOY STACK-FRAME THS readString
+--------------------------------------
+
+|			|LOW		   \
+|  	0  0  0  0   	|<--%esp	    \
+|  	0  0  0  1   	|esp+4		     \
+|c=	0  0  0  a   	|esp+8                \
+|i=	0  0  0  1d  	|esp+12
+|buf[0]=41 41 41 41	|esp+16     		readString-stackframe
+|         .		|
+|         .		|		       /
+|         .		|                     /
+|         . 		|ebp-8	 esp+48	     /
+|buf[29]=0 0  0  0      |ebp-4   esp+52     /
+|old ebp=08 04 79 68	|<--%ebp esp+56    /
+|ret add=08 05 02 c8    |ebp+4   esp+60   /
+|&Name = 08 08 b4 58    |ebp+8   esp+64  /
+|			|
+|			|
+|			|HIGH

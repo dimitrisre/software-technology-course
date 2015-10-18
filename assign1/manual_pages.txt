@@ -1,0 +1,17 @@
+<<<<-------Manual------->>>>>
+Programm:translate
+version:1.0
+
+This programm translates a text from an iso-8859-7 format to a iso-8859-1 format.
+Functions like a pipe in the unix systems.Reads from standar input an writes to standar output.
+
+eg
+
+$: cat test.7 | translate
+
+or
+
+$: translate < test.7 > test.1 
+
+trsanslate 1.0 
+date:04/03/2005

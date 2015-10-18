@@ -1,0 +1,21 @@
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+Q                         README                              Q
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+Assignement 6 ---> hy255
+Dimitris Tsolis
+AM:1613
+email: tsolis@csd.uoc.gr
+
+
+
+
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+Q                           EROTIMATA			      Q
+QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
+
+2.Ta arthra poy kathistoyn paranomi tin texniki toy buffer overun einai ta eksis:
+Arthro 4
+Arthro 5
+Arthro 7
+Arthro 8
+
